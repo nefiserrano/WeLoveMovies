@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="We Love Movies is a personal movie tracker. Add movies to your 'To Watch' list, mark them as 'Watched', and keep all your movie notes in one place.">
+    <meta name="author" content="Nefi Serrano and Mariela Matute">
+    <title>We Love Movies</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <h1>🎬 We Love Movies</h1>
+        <p>Track, organize, and discover your next favorite film.</p>
+    </header>
+    <main> 
+        <section>
+            <div>
+                <h2>Add a Movie</h2>
+                <form>
+                    <div>
+                        <label for="movie-title">Movie Title *</label>
+                        <input type="text" id="movie-title" required placeholder="e.g., Inception">
+                        <button type="button">Auto-Fill from OMDb</button>
+                    </div>
+                    <div>
+                        <label for="movie-year">Release Year</label>
+                        <input type="number" id="movie-year" min="1888" max="2030" placeholder="e.g., 2010">
+                    </div>
+                    <div>
+                        <label for="movie-genre">Genre *</label>
+                        <select id="movie-genre" required>
+                            <option value="">-- Select Genre --</option>
+                            <option value="Action">Action</option>
+                            <option value="Comedy">Comedy</option>
+                            <option value="Drama">Drama</option>
+                            <option value="Sci-Fi">Sci-Fi</option>
+                            <option value="Thriller">Thriller</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="movie-status">Status</label>
+                        <select id="movie-status">
+                            <option value="To Watch">To Watch</option>
+                            <option value="Watched">Watched</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="movie-rating">Your Rating (1-10)</label>
+                        <input type="number" id="movie-rating" min="1" max="10">
+                    </div>
+                    <div>
+                        <label for="movie-notes">Notes</label>
+                        <textarea id="movie-notes" rows="3" placeholder="Add details or thoughts..."></textarea>
+                    </div>
+                    <button type="submit">Save Movie</button>
+                </form>
+            </div>
+            <div>
+                <h2>Filter & Sort</h2>
+                <form>
+                    <div>
+                        <label for="search-input">Search Title</label>
+                        <input type="text" id="search-input" placeholder="Type to search...">
+                    </div>
+                    <div>
+                        <label for="filter-genre">Filter by Genre</label>
+                        <select id="filter-genre">
+                            <option value="all">All Genres</option>
+                            <option value="Action">Action</option>
+                            <option value="Sci-Fi">Sci-Fi</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="sort-by">Sort By</label>
+                        <select id="sort-by">
+                            <option value="title">Title (A-Z)</option>
+                            <option value="year">Year</option>
+                            <option value="rating">Rating</option>
+                        </select>
+                    </div>
+                </form>
+            </div>
+        </section>
+        <hr>
+        <!-- This section will dynamically display movies added by the user. Below are static examples. -->
+        <section>
+            <div>
+                <h2>To Watch List</h2>
+                <div>
+                    <div>
+                        <img src="https://render.fineartamerica.com/images/rendered/default/poster/6/8/break/images/artworkimages/medium/3/inception-bo-kev.jpg" alt="Inception Poster">
+                        <div>
+                            <h3>Inception (2010)</h3>
+                            <span>Sci-Fi</span>
+                            <p>A thief who steals corporate secrets through the use of dream-sharing technology...</p>
+                            <div>
+                                <button>Mark as Watched</button>
+                                <button>Edit</button>
+                                <button>Delete</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <h2>✅ Watched Movies</h2>
+                <div>
+                    <div>
+                        <img src="https://render.fineartamerica.com/images/rendered/default/poster/6/8/break/images/artworkimages/medium/3/the-matrix-bo-kev.jpg" alt="The Matrix Poster">
+                        <div>
+                            <h3>The Matrix (1999)</h3>
+                            <span>Action</span>
+                            <div>My Rating: ⭐ 9/10</div>
+                            <div>
+                                <button>Watch Again</button>
+                                <button>Edit</button>
+                                <button>Delete</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+    <footer>
+        <p>&copy; 2026 We Love Movies App</p>
+    </footer>
+</body>
+</html>
