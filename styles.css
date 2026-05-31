@@ -1,0 +1,312 @@
+/* ==========================================================================
+   1. Design Tokens, Variables & Base Resets (UX/Accessibility Foundation)
+   ========================================================================== */
+:root {
+    --bg-app: #f4f4f6;
+    --bg-card: #ffffff;
+    --border-dark: #333333;
+    --border-light: #cccccc;
+    --text-main: #111111;
+    --text-muted: #666666;
+    --accent-color: #000000;
+    --accent-hover: #444444;
+    --focus-ring: #005fcc;
+    
+    --font-stack: 'Courier New', Courier, monospace;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: var(--font-stack);
+    background-color: var(--bg-app);
+    color: var(--text-main);
+    line-height: 1.4;
+    padding: 0;
+}
+
+input:focus, select:focus, textarea:focus, button:focus {
+    outline: 3px solid var(--focus-ring);
+    outline-offset: 1px;
+}
+
+@keyframes fadeInCard {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.movie-card-animated {
+    animation: fadeInCard 0.35s ease-out forwards;
+}
+
+header {
+    background-color: var(--bg-card);
+    border-bottom: 2px solid var(--border-dark);
+    padding: 12px 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+header h1 {
+    font-size: 1.25rem;
+    font-weight: bold;
+}
+
+header p {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+}
+
+main {
+    padding: 12px;
+}
+
+main > section:first-of-type {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin-bottom: 16px;
+}
+
+main > section:first-of-type > div {
+    background-color: var(--bg-card);
+    border: 1px solid var(--border-dark);
+    padding: 16px;
+}
+
+main > section:first-of-type h2 {
+    font-size: 1rem;
+    margin-bottom: 12px;
+    text-transform: uppercase;
+    border-bottom: 1px solid var(--border-light);
+    padding-bottom: 4px;
+}
+
+form div {
+    margin-bottom: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+label {
+    font-size: 0.8rem;
+    font-weight: bold;
+}
+
+input[type="text"],
+input[type="number"],
+select,
+textarea {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid var(--border-dark);
+    font-family: var(--font-stack);
+    font-size: 0.85rem;
+    background-color: var(--bg-card);
+}
+
+input:required, select:required {
+    border-left: 3px solid var(--border-dark);
+}
+
+input:invalid:not(:placeholder-shown) {
+    border-color: #cc0000;
+    background-color: #fff8f8;
+}
+
+
+button {
+    font-family: var(--font-stack);
+    padding: 8px 12px;
+    border: 1px solid var(--border-dark);
+    background-color: var(--bg-card);
+    cursor: pointer;
+    font-size: 0.8rem;
+    font-weight: bold;
+    transition: background 0.2s ease;
+}
+
+button:hover {
+    background-color: var(--bg-app);
+}
+
+button[type="submit"] {
+    width: 100%;
+    background-color: var(--accent-color);
+    color: white;
+    text-transform: uppercase;
+}
+
+button[type="submit"]:hover {
+    background-color: var(--accent-hover);
+}
+
+/* Auto-Fill API Interaction Button Row Styling */
+form div:first-of-type button {
+    margin-top: 4px;
+    background-color: var(--bg-app);
+    font-size: 0.75rem;
+}
+
+
+hr {
+    border: none;
+    border-top: 2px dashed var(--border-light);
+    margin: 16px 0;
+}
+
+main > section:last-of-type {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+main > section:last-of-type h2 {
+    font-size: 1.1rem;
+    margin-bottom: 8px;
+}
+
+main > section:last-of-type > div > div {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+main > section:last-of-type > div > div > div {
+    background-color: var(--bg-card);
+    border: 1px solid var(--border-dark);
+    display: flex;
+    padding: 8px;
+    gap: 12px;
+    animation: fadeInCard 0.3s ease-out forwards;
+}
+
+main > section:last-of-type img {
+    width: 80px;
+    height: 100px;
+    object-fit: cover;
+    background-color: #e0e0e0;
+    border: 1px solid var(--border-light);
+}
+
+main > section:last-of-type > div > div > div > div {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+main > section:last-of-type h3 {
+    font-size: 0.9rem;
+    margin-bottom: 2px;
+}
+
+main > section:last-of-type span {
+    font-size: 0.7rem;
+    color: var(--text-muted);
+    text-transform: uppercase;
+}
+
+main > section:last-of-type p {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    margin: 4px 0;
+}
+
+main > section:last-of-type > div > div > div > div > div:last-of-type {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+    margin-top: 4px;
+}
+
+main > section:last-of-type button {
+    padding: 4px 8px;
+    font-size: 0.7rem;
+}
+
+footer {
+    background-color: var(--bg-card);
+    border-top: 2px solid var(--border-dark);
+    padding: 16px;
+    text-align: center;
+    font-size: 0.8rem;
+    margin-top: 32px;
+}
+
+@media (min-width: 992px) {
+    body {
+        background-color: var(--bg-card);
+    }
+
+    main {
+        max-width: 1440px;
+        margin: 0 auto;
+        display: grid;
+        grid-template-columns: 320px 1fr; /* Exact Left Sidebar Workspace vs Right Data Field */
+        gap: 24px;
+        padding: 24px;
+    }
+
+    main > section:first-of-type {
+        grid-column: 1;
+        background-color: #f0f0f2;
+        border: 1px solid var(--border-dark);
+        padding: 20px;
+        height: fit-content;
+        position: sticky;
+        top: 24px;
+    }
+
+
+    hr {
+        display: none;
+    }
+
+   
+    main > section:last-of-type {
+        grid-column: 2;
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 32px;
+    }
+
+    main > section:last-of-type > div {
+        background-color: var(--bg-app);
+        padding: 20px;
+        border: 1px solid var(--border-light);
+    }
+
+    main > section:last-of-type > div > div {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+        gap: 16px;
+    }
+
+    main > section:last-of-type > div > div > div {
+        flex-direction: column;
+        padding: 0;
+        overflow: hidden;
+    }
+
+    main > section:last-of-type img {
+        width: 100%;
+        height: 200px;
+    }
+
+    main > section:last-of-type > div > div > div > div {
+        padding: 12px;
+    }
+}
