@@ -7,6 +7,7 @@
     <meta name="author" content="Nefi Serrano and Mariela Matute">
     <title>We Love Movies</title>
     <link rel="stylesheet" href="styles.css">
+    <script src="app.js" defer></script>
 </head>
 <body>
     <header>
@@ -17,11 +18,11 @@
         <section>
             <div>
                 <h2>Add a Movie</h2>
-                <form>
+                <form id="movie-form">
                     <div>
                         <label for="movie-title">Movie Title *</label>
                         <input type="text" id="movie-title" required placeholder="e.g., Inception">
-                        <button type="button">Auto-Fill from OMDb</button>
+                        <button type="button" id="omdb-fetch-btn">Auto-Fill from OMDb</button>
                     </div>
                     <div>
                         <label for="movie-year">Release Year</label>
@@ -83,42 +84,17 @@
             </div>
         </section>
         <hr>
-        <!-- This section will dynamically display movies added by the user. Below are static examples. -->
         <section>
             <div>
                 <h2>To Watch List</h2>
-                <div>
-                    <div>
-                        <img src="https://render.fineartamerica.com/images/rendered/default/poster/6/8/break/images/artworkimages/medium/3/inception-bo-kev.jpg" alt="Inception Poster">
-                        <div>
-                            <h3>Inception (2010)</h3>
-                            <span>Sci-Fi</span>
-                            <p>A thief who steals corporate secrets through the use of dream-sharing technology...</p>
-                            <div>
-                                <button>Mark as Watched</button>
-                                <button>Edit</button>
-                                <button>Delete</button>
-                            </div>
-                        </div>
-                    </div>
+                <div id="to-watch-container">
+                    <p>Add a movie to your watch list!</p>
                 </div>
             </div>
             <div>
                 <h2>✅ Watched Movies</h2>
-                <div>
-                    <div>
-                        <img src="https://render.fineartamerica.com/images/rendered/default/poster/6/8/break/images/artworkimages/medium/3/the-matrix-bo-kev.jpg" alt="The Matrix Poster">
-                        <div>
-                            <h3>The Matrix (1999)</h3>
-                            <span>Action</span>
-                            <div>My Rating: ⭐ 9/10</div>
-                            <div>
-                                <button>Watch Again</button>
-                                <button>Edit</button>
-                                <button>Delete</button>
-                            </div>
-                        </div>
-                    </div>
+                <div id="watched-container">
+                    <p>No movies watched yet.</p>
                 </div>
             </div>
         </section>
