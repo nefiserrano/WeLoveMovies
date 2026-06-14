@@ -1,4 +1,5 @@
-const API_KEY = 'OMDB_API_KEY_PLACEHOLDER';
+// SECURE KEY SETUP: Checks your browser's localStorage first. If it's not there, it safely falls back to your teammate's GitHub placeholder.
+const API_KEY = localStorage.getItem('omdb_api_key') || 'OMDB_API_KEY_PLACEHOLDER';
 
 let myMoviesDataset = [];
 
@@ -91,6 +92,9 @@ function handleFormSubmit(event) {
     };
 
     myMoviesDataset.push(newMovie);
+    
+    localStorage.setItem('myMoviesDataset', JSON.stringify(myMoviesDataset));
+    
     renderMovies();
     
     event.target.reset();
@@ -100,6 +104,9 @@ function handleFormSubmit(event) {
 
 function deleteMovie(id) {
     myMoviesDataset = myMoviesDataset.filter(movie => movie.id !== id);
+    
+    localStorage.setItem('myMoviesDataset', JSON.stringify(myMoviesDataset));
+    
     renderMovies();
 }
 
@@ -110,8 +117,19 @@ function toggleStatus(id) {
         }
         return movie;
     });
+
+    localStorage.setItem('myMoviesDataset', JSON.stringify(myMoviesDataset));
+    
     renderMovies();
 }
 
 document.getElementById('omdb-fetch-btn').addEventListener('click', fetchMovieFromOMDb);
 document.getElementById('movie-form').addEventListener('submit', handleFormSubmit);
+
+window.addEventListener('DOMContentLoaded', () => {
+    const savedMovies = localStorage.getItem('myMoviesDataset');
+    if (savedMovies) {
+        myMoviesDataset = JSON.parse(savedMovies);
+        renderMovies();
+    }
+});
