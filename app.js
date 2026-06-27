@@ -10,7 +10,27 @@ function renderMovies() {
     toWatchContainer.innerHTML = '';
     watchedContainer.innerHTML = '';
 
-    myMoviesDataset.forEach(movie => {
+    const searchQuery = document.getElementById('search-input').value.toLowerCase();
+    const selectedGenre = document.getElementById('filter-genre').value;
+    const sortBy = document.getElementById('sort-by').value;
+
+    let filteredMovies = myMoviesDataset.filter(movie => {
+        const matchesSearch = movie.title.toLowerCase().includes(searchQuery);
+        const matchesGenre = selectedGenre === 'all' || movie.genre === selectedGenre;
+        return matchesSearch && matchesGenre;
+    });
+
+    filteredMovies.sort((a, b) => {
+        if (sortBy === 'year') {
+            return parseInt(b.year) - parseInt(a.year);
+        } else if (sortBy === 'rating') {
+            return (parseFloat(b.rating) || 0) - (parseFloat(a.rating) || 0);
+        } else {
+            return a.title.localeCompare(b.title);
+        }
+    });
+
+    filteredMovies.forEach(movie => {
         const movieCardHTML = `
             <div class="movie-card" data-id="${movie.id}">
                 <img src="${movie.poster}" alt="${movie.title} Poster">
@@ -123,6 +143,40 @@ function toggleStatus(id) {
     renderMovies();
 }
 
+function updateURLParameters() {
+    const search = document.getElementById('search-input').value.trim();
+    const genre = document.getElementById('filter-genre').value;
+    const sort = document.getElementById('sort-by').value;
+
+    const params = new URLSearchParams();
+    
+    if (search) params.set('search', search);
+    if (genre !== 'all') params.set('genre', genre);
+    if (sort !== 'title') params.set('sort', sort);
+
+    const newQueryString = params.toString() ? '?' + params.toString() : window.location.pathname;
+    
+    window.history.replaceState({}, '', newQueryString);
+}
+
+function loadFiltersFromURL() {
+    const params = new URLSearchParams(window.location.search);
+    
+    if (params.has('search')) {
+        document.getElementById('search-input').value = params.get('search');
+    }
+    if (params.has('genre')) {
+        document.getElementById('filter-genre').value = params.get('genre');
+    }
+    if (params.has('sort')) {
+        document.getElementById('sort-by').value = params.get('sort');
+    }
+}
+
+document.getElementById('search-input').addEventListener('input', () => { updateURLParameters(); renderMovies(); });
+document.getElementById('filter-genre').addEventListener('change', () => { updateURLParameters(); renderMovies(); });
+document.getElementById('sort-by').addEventListener('change', () => { updateURLParameters(); renderMovies(); });
+
 document.getElementById('omdb-fetch-btn').addEventListener('click', fetchMovieFromOMDb);
 document.getElementById('movie-form').addEventListener('submit', handleFormSubmit);
 
@@ -130,6 +184,9 @@ window.addEventListener('DOMContentLoaded', () => {
     const savedMovies = localStorage.getItem('myMoviesDataset');
     if (savedMovies) {
         myMoviesDataset = JSON.parse(savedMovies);
-        renderMovies();
     }
+
+    loadFiltersFromURL();
+    
+    renderMovies();
 });
