@@ -13,6 +13,14 @@
     <header>
         <h1>🎬 We Love Movies</h1>
         <p>Track, organize, and discover your next favorite film.</p>
+        <nav class="nav-container">
+    <label for="app-nav" class="menu-label">Navigate To:</label>
+    <select id="app-nav" class="nav-menu" onchange="location = this.value;">
+        <option value="#movie-form">Add a Movie</option>
+        <option value="#to-watch-container">To Watch List</option>
+        <option value="#watched-container">Watched Movies</option>
+    </select>
+</nav>
     </header>
     <main> 
         <section>
