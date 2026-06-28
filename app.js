@@ -1,5 +1,6 @@
-// SECURE KEY SETUP: Checks your browser's localStorage first. If it's not there, it safely falls back to your teammate's GitHub placeholder.
-const API_KEY = localStorage.getItem('omdb_api_key') || 'OMDB_API_KEY_PLACEHOLDER';
+import { fetchMovieFromOMDb } from './api.js';
+import { getSavedMovies, saveMovies } from './storage.js';
+import { updateURLParameters, loadFiltersFromURL } from './urlParams.js';
 
 let myMoviesDataset = [];
 
@@ -39,10 +40,10 @@ function renderMovies() {
                     <span>${movie.genre}</span>
                     ${movie.status === 'Watched' ? `<div>My Rating: ⭐ ${movie.rating}/10</div>` : `<p>${movie.plot}</p>`}
                     <div>
-                        <button onclick="toggleStatus('${movie.id}')">
+                        <button class="toggle-btn" data-id="${movie.id}">
                             ${movie.status === 'To Watch' ? 'Mark as Watched' : 'Watch Again'}
                         </button>
-                        <button onclick="deleteMovie('${movie.id}')">Delete</button>
+                        <button class="delete-btn" data-id="${movie.id}">Delete</button>
                     </div>
                 </div>
             </div>
@@ -56,25 +57,11 @@ function renderMovies() {
     });
 }
 
-async function fetchMovieFromOMDb() {
+async function handleOMDbFetch() {
     const titleInput = document.getElementById('movie-title').value.trim();
-    
-    if (!titleInput) {
-        alert("Please enter a movie title first!");
-        return;
-    }
+    const data = await fetchMovieFromOMDb(titleInput);
 
-    try {
-        const url = `https://www.omdbapi.com/?apikey=${API_KEY}&t=${encodeURIComponent(titleInput)}`;
-        
-        const response = await fetch(url);
-        const data = await response.json();
-
-        if (data.Response === "False") {
-            alert(`Movie not found: ${data.Error}`);
-            return;
-        }
-
+    if (data) {
         document.getElementById('movie-year').value = data.Year || '';
         document.getElementById('movie-notes').value = data.Plot || '';
         
@@ -84,20 +71,16 @@ async function fetchMovieFromOMDb() {
             genreDropdown.value = primaryGenre;
         }
 
-        document.getElementById('omdb-fetch-btn').dataset.apiPoster = data.Poster !== "N/A" ? data.Poster : 'https://via.placeholder.com/150x220?text=No+Poster';
-        document.getElementById('omdb-fetch-btn').dataset.apiPlot = data.Plot || 'No plot description available.';
+        const fetchBtn = document.getElementById('omdb-fetch-btn');
+        fetchBtn.dataset.apiPoster = data.Poster !== "N/A" ? data.Poster : 'https://via.placeholder.com/150x220?text=No+Poster';
+        fetchBtn.dataset.apiPlot = data.Plot || 'No plot description available.';
 
         alert(`Found "${data.Title}"! Form pre-filled.`);
-
-    } catch (error) {
-        console.error("Error fetching data from OMDb:", error);
-        alert("Failed to connect to the movie database. Please check your internet connection.");
     }
 }
 
 function handleFormSubmit(event) {
     event.preventDefault();
-
     const fetchBtn = document.getElementById('omdb-fetch-btn');
 
     const newMovie = {
@@ -112,9 +95,7 @@ function handleFormSubmit(event) {
     };
 
     myMoviesDataset.push(newMovie);
-    
-    localStorage.setItem('myMoviesDataset', JSON.stringify(myMoviesDataset));
-    
+    saveMovies(myMoviesDataset);
     renderMovies();
     
     event.target.reset();
@@ -124,9 +105,7 @@ function handleFormSubmit(event) {
 
 function deleteMovie(id) {
     myMoviesDataset = myMoviesDataset.filter(movie => movie.id !== id);
-    
-    localStorage.setItem('myMoviesDataset', JSON.stringify(myMoviesDataset));
-    
+    saveMovies(myMoviesDataset);
     renderMovies();
 }
 
@@ -137,56 +116,31 @@ function toggleStatus(id) {
         }
         return movie;
     });
-
-    localStorage.setItem('myMoviesDataset', JSON.stringify(myMoviesDataset));
-    
+    saveMovies(myMoviesDataset);
     renderMovies();
 }
 
-function updateURLParameters() {
-    const search = document.getElementById('search-input').value.trim();
-    const genre = document.getElementById('filter-genre').value;
-    const sort = document.getElementById('sort-by').value;
+// Event Delegation setup for managing dynamic list buttons cleanly
+document.addEventListener('click', (event) => {
+    const target = event.target;
+    const movieId = target.dataset.id;
 
-    const params = new URLSearchParams();
-    
-    if (search) params.set('search', search);
-    if (genre !== 'all') params.set('genre', genre);
-    if (sort !== 'title') params.set('sort', sort);
-
-    const newQueryString = params.toString() ? '?' + params.toString() : window.location.pathname;
-    
-    window.history.replaceState({}, '', newQueryString);
-}
-
-function loadFiltersFromURL() {
-    const params = new URLSearchParams(window.location.search);
-    
-    if (params.has('search')) {
-        document.getElementById('search-input').value = params.get('search');
+    if (target.classList.contains('toggle-btn')) {
+        toggleStatus(movieId);
+    } else if (target.classList.contains('delete-btn')) {
+        deleteMovie(movieId);
     }
-    if (params.has('genre')) {
-        document.getElementById('filter-genre').value = params.get('genre');
-    }
-    if (params.has('sort')) {
-        document.getElementById('sort-by').value = params.get('sort');
-    }
-}
+});
 
 document.getElementById('search-input').addEventListener('input', () => { updateURLParameters(); renderMovies(); });
 document.getElementById('filter-genre').addEventListener('change', () => { updateURLParameters(); renderMovies(); });
 document.getElementById('sort-by').addEventListener('change', () => { updateURLParameters(); renderMovies(); });
 
-document.getElementById('omdb-fetch-btn').addEventListener('click', fetchMovieFromOMDb);
+document.getElementById('omdb-fetch-btn').addEventListener('click', handleOMDbFetch);
 document.getElementById('movie-form').addEventListener('submit', handleFormSubmit);
 
 window.addEventListener('DOMContentLoaded', () => {
-    const savedMovies = localStorage.getItem('myMoviesDataset');
-    if (savedMovies) {
-        myMoviesDataset = JSON.parse(savedMovies);
-    }
-
+    myMoviesDataset = getSavedMovies();
     loadFiltersFromURL();
-    
     renderMovies();
 });
