@@ -34,7 +34,7 @@ input:focus, select:focus, textarea:focus, button:focus {
 @keyframes fadeInCard {
     from {
         opacity: 0;
-        transform: translateY(10px);
+        transform: translateY(15px);
     }
     to {
         opacity: 1;
@@ -42,17 +42,13 @@ input:focus, select:focus, textarea:focus, button:focus {
     }
 }
 
-.movie-card-animated {
-    animation: fadeInCard 0.35s ease-out forwards;
-}
-
 header {
     background-color: var(--bg-card);
     border-bottom: 2px solid var(--border-dark);
-    padding: 12px 16px;
+    padding: 16px;
     display: flex;
     flex-direction: column;
-    gap: 4px;
+    gap: 12px;
 }
 
 header h1 {
@@ -63,6 +59,27 @@ header h1 {
 header p {
     font-size: 0.8rem;
     color: var(--text-muted);
+}
+
+.nav-container {
+    width: 100%;
+    margin-top: 4px;
+}
+
+.menu-label {
+    display: block;
+    font-size: 0.8rem;
+    font-weight: bold;
+    margin-bottom: 4px;
+}
+
+.nav-menu {
+    width: 100%;
+    padding: 8px;
+    font-family: var(--font-stack);
+    font-size: 0.85rem;
+    border: 1px solid var(--border-dark);
+    background-color: var(--bg-card);
 }
 
 main {
@@ -123,7 +140,6 @@ input:invalid:not(:placeholder-shown) {
     background-color: #fff8f8;
 }
 
-
 button {
     font-family: var(--font-stack);
     padding: 8px 12px;
@@ -156,7 +172,6 @@ form div:first-of-type button {
     font-size: 0.75rem;
 }
 
-
 hr {
     border: none;
     border-top: 2px dashed var(--border-light);
@@ -180,13 +195,13 @@ main > section:last-of-type > div > div {
     gap: 12px;
 }
 
-main > section:last-of-type > div > div > div {
+.movie-card {
     background-color: var(--bg-card);
     border: 1px solid var(--border-dark);
     display: flex;
     padding: 8px;
     gap: 12px;
-    animation: fadeInCard 0.3s ease-out forwards;
+    animation: fadeInCard 0.4s ease-out forwards;
 }
 
 main > section:last-of-type img {
@@ -242,9 +257,48 @@ footer {
     margin-top: 32px;
 }
 
+/* --- Mobile Specific Fixes --- */
+@media (max-width: 991px) {
+    main > section:last-of-type > div > div {
+        display: flex;
+        flex-direction: column;
+        gap: 14px;
+    }
+    
+    .movie-card {
+        width: 100%;
+    }
+}
+
 @media (min-width: 992px) {
     body {
         background-color: var(--bg-card);
+    }
+
+    header {
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        padding: 16px 24px;
+    }
+
+    .nav-container {
+        width: auto;
+        margin-top: 0;
+    }
+
+    .menu-label {
+        display: none; 
+    }
+
+    .nav-menu {
+        border: none;
+        background: transparent;
+        display: flex;
+        gap: 20px;
+        font-weight: bold;
+        text-transform: uppercase;
+        width: auto;
     }
 
     main {
@@ -266,12 +320,10 @@ footer {
         top: 24px;
     }
 
-
     hr {
         display: none;
     }
 
-   
     main > section:last-of-type {
         grid-column: 2;
         display: grid;
