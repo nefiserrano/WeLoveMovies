@@ -1,6 +1,7 @@
 import { fetchMovieFromOMDb } from './api.js';
 import { getSavedMovies, saveMovies } from './storage.js';
 import { updateURLParameters, loadFiltersFromURL } from './urlParams.js';
+const API_KEY = '51403b9a';
 
 let myMoviesDataset = [];
 
