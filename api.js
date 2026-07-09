@@ -1,4 +1,4 @@
-const API_KEY = localStorage.getItem('omdb_api_key') || 'OMDB_API_KEY_PLACEHOLDER';
+const API_KEY = '51403b9a';
 
 /**
  * Fetches movie details from OMDb API based on the title.
